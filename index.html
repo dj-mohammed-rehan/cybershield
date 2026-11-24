@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield | Cyber Safety and Digital Fraud Awareness</title>
+<meta name="description" content="CyberShield is a cyber safety and digital fraud awareness app. Learn how common online frauds in India work, follow plain safety rules, and test yourself with a short quiz.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{
+    --ink:#0f1c2e;
+    --ink-soft:#3d4c61;
+    --paper:#f7f8fa;
+    --card:#ffffff;
+    --line:#d8dee6;
+    --navy:#10233d;
+    --accent:#0b5cad;
+    --accent-dark:#084a8a;
+    --warn:#b45309;
+    --ok:#1e7a3c;
+    --bad:#b42318;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:auto;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:16px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
+
+  /* Header */
+  header{
+    background:var(--navy);
+    color:#fff;
+    border-bottom:3px solid var(--accent);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0;flex-wrap:wrap;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:#fff;text-decoration:none;}
+  .brand img{width:28px;height:28px;display:block;}
+  .nav-links{display:flex;gap:18px;flex-wrap:wrap;}
+  .nav-links a{color:#c9d6e6;text-decoration:none;font-size:14px;}
+  .nav-links a:hover,.nav-links a:focus{color:#fff;text-decoration:underline;}
+
+  /* Hero */
+  .hero{background:var(--navy);color:#fff;padding:56px 0 60px;}
+  .hero h1{font-size:34px;line-height:1.25;max-width:640px;margin-bottom:14px;}
+  .hero p{color:#c9d6e6;max-width:620px;font-size:17px;margin-bottom:26px;}
+  .btn{
+    display:inline-block;padding:11px 22px;border-radius:6px;
+    font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover,.btn-primary:focus{background:var(--accent-dark);}
+  .btn-outline{background:transparent;color:#fff;border-color:#7d93ad;}
+  .btn-outline:hover,.btn-outline:focus{border-color:#fff;}
+  .hero .btn + .btn{margin-left:10px;}
+
+  /* Sections */
+  section{padding:52px 0;}
+  section + section{border-top:1px solid var(--line);}
+  h2{font-size:24px;margin-bottom:8px;}
+  .section-intro{color:var(--ink-soft);max-width:640px;margin-bottom:30px;}
+
+  /* Feature list */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+  .feature{
+    background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;
+  }
+  .feature svg{width:26px;height:26px;stroke:var(--accent);margin-bottom:12px;display:block;}
+  .feature h3{font-size:16px;margin-bottom:6px;}
+  .feature p{font-size:14px;color:var(--ink-soft);}
+
+  /* Fraud cards */
+  .fraud-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;}
+  .fraud{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--warn);
+    border-radius:8px;padding:20px;
+  }
+  .fraud h3{font-size:16px;margin-bottom:8px;}
+  .fraud p{font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
+  .fraud .sign{
+    font-size:13px;color:var(--warn);font-weight:600;
+    border-top:1px dashed var(--line);padding-top:10px;
+  }
+
+  /* Rules */
+  .rules{list-style:none;counter-reset:rule;max-width:760px;}
+  .rules li{
+    counter-increment:rule;position:relative;padding:14px 14px 14px 58px;
+    background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:10px;
+    font-size:15px;
+  }
+  .rules li::before{
+    content:counter(rule);position:absolute;left:14px;top:14px;
+    width:30px;height:30px;background:var(--navy);color:#fff;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
+  }
+
+  /* Quiz */
+  .quiz-box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:26px;max-width:760px;}
+  .quiz-q{font-weight:600;margin-bottom:14px;font-size:16px;}
+  .quiz-options{display:flex;flex-direction:column;gap:8px;}
+  .quiz-opt{
+    text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:6px;
+    background:#fff;font-size:15px;cursor:pointer;color:var(--ink);
+  }
+  .quiz-opt:hover,.quiz-opt:focus{border-color:var(--accent);}
+  .quiz-opt:disabled{cursor:default;}
+  .quiz-opt.correct{border-color:var(--ok);background:#eef7f0;}
+  .quiz-opt.wrong{border-color:var(--bad);background:#fdf0ef;}
+  .quiz-why{display:none;margin-top:12px;font-size:14px;color:var(--ink-soft);border-left:3px solid var(--accent);padding-left:12px;}
+  .quiz-next{
+    display:none;margin-top:16px;
+  }
+  .quiz-score{display:none;font-size:16px;font-weight:600;margin-top:4px;}
+  .quiz-restart{margin-top:14px;display:none;}
+
+  /* Report */
+  .report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+  .report-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;}
+  .report-card h3{font-size:16px;margin-bottom:6px;}
+  .report-card p{font-size:14px;color:var(--ink-soft);margin-bottom:8px;}
+  .report-card .big{font-size:26px;font-weight:700;color:var(--navy);letter-spacing:1px;}
+  .report-card a{color:var(--accent);word-break:break-all;}
+  .report-card a:hover{text-decoration:none;}
+  .urgent{
+    background:#fff7ed;border:1px solid #f0dcbf;border-left:4px solid var(--warn);
+    border-radius:8px;padding:16px 20px;margin-bottom:26px;font-size:15px;
+  }
+
+  /* Footer */
+  footer{background:var(--navy);color:#c9d6e6;padding:30px 0;font-size:14px;}
+  footer .foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center;}
+  footer a{color:#c9d6e6;}
+  footer a:hover{color:#fff;}
+  footer .foot-links{display:flex;gap:18px;}
+
+  @media (max-width:600px){
+    .hero h1{font-size:26px;}
+    .hero .btn{display:block;text-align:center;margin:0 0 10px;}
+    .hero .btn + .btn{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img src="favicon.svg" alt="" width="28" height="28">
+      CyberShield
+    </a>
+    <nav class="nav-links">
+      <a href="#frauds">Common frauds</a>
+      <a href="#rules">Safety rules</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#report">Report fraud</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Learn how digital frauds work, so one call or link does not cost you your savings.</h1>
+    <p>CyberShield is a cyber safety and digital fraud awareness app. It explains the frauds most often reported in India, gives you ten plain rules to follow, and tests whether you can spot a scam in a short quiz.</p>
+    <a class="btn btn-primary" href="#quiz">Take the 5-question quiz</a>
+    <a class="btn btn-outline" href="#report">How to report a fraud</a>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <h2>What the app does</h2>
+    <p class="section-intro">Four things, in plain language, without jargon.</p>
+    <div class="features">
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3>Explains real fraud patterns</h3>
+        <p>Each fraud type is broken down into how the approach comes, what the fraudster says, and where people slip.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <h3>Gives rules you can remember</h3>
+        <p>Ten short rules cover the situations where most fraud begins: OTPs, QR codes, links, and pressure calls.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <h3>Tests you with scenarios</h3>
+        <p>Short quizzes present a message or call the way it actually arrives, and you decide what to do next.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <h3>Shows where to report</h3>
+        <p>The official reporting channels in India, what details to keep ready, and why the first few hours matter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="frauds">
+  <div class="wrap">
+    <h2>Frauds reported most often in India</h2>
+    <p class="section-intro">These descriptions come from advisories published by the Indian Cyber Crime Coordination Centre (I4C), CERT-In, and the Reserve Bank of India.</p>
+    <div class="fraud-grid">
+      <div class="fraud">
+        <h3>UPI and QR code scams</h3>
+        <p>You are selling something online or expecting a refund. The other person sends a QR code or a collect request and says scanning it will credit money to you. Scanning and entering your UPI PIN does the opposite: it authorises money out of your account.</p>
+        <p class="sign">Warning sign: anyone who says you must scan a code or enter a PIN to receive money.</p>
+      </div>
+      <div class="fraud">
+        <h3>OTP and KYC fraud</h3>
+        <p>A caller claims to be from your bank, wallet, or a telecom company and says your KYC is expiring or your account will be blocked. They ask you to share an OTP, or to install an app that lets them see your screen.</p>
+        <p class="sign">Warning sign: any caller who asks for an OTP, PIN, CVV, or asks you to install an app.</p>
+      </div>
+      <div class="fraud">
+        <h3>Phishing links</h3>
+        <p>An SMS, WhatsApp message, or email carries a link to a page that looks like your bank, a courier, a power company, or a government portal. The page asks for card details, net banking passwords, or an OTP.</p>
+        <p class="sign">Warning sign: a link in an unsolicited message that opens a login or payment page.</p>
+      </div>
+      <div class="fraud">
+        <h3>Digital arrest scam</h3>
+        <p>Callers pose as police, CBI, ED, or customs. They claim a parcel in your name held illegal goods, or your Aadhaar was misused, and keep you on a video call while demanding money to clear the case. No Indian law enforcement agency conducts arrests or settlements over a phone or video call.</p>
+        <p class="sign">Warning sign: any call claiming you are under arrest and must pay or stay on video.</p>
+      </div>
+      <div class="fraud">
+        <h3>Job and investment scams</h3>
+        <p>You are offered part-time work such as liking videos or rating apps, with small payouts at first to build trust. Then you are asked to deposit money to unlock earnings. A related pattern uses fake trading apps or groups that promise guaranteed returns.</p>
+        <p class="sign">Warning sign: any earning scheme that first asks you to pay or deposit money.</p>
+      </div>
+      <div class="fraud">
+        <h3>Fake delivery and customer care</h3>
+        <p>A message claims a package is held and asks you to pay a small fee or confirm details through a link. In a related pattern, a fake customer care number found through search or social media answers your call and walks you into an OTP or screen-sharing trap.</p>
+        <p class="sign">Warning sign: a support number that is not on the company's official website or app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <h2>Ten rules that stop most fraud</h2>
+    <p class="section-intro">Print these or save them. They cover the situations where nearly every common fraud begins.</p>
+    <ol class="rules">
+      <li>Never share an OTP, UPI PIN, card PIN, or CVV with anyone, including someone who says they are from your bank.</li>
+      <li>Banks, wallets, and government agencies do not ask for these details on calls, SMS, or WhatsApp.</li>
+      <li>Scan a QR code only to pay someone. You never need to scan a code or enter a PIN to receive money.</li>
+      <li>Do not install any app because a caller asked you to. Screen-sharing apps hand over your phone.</li>
+      <li>Do not trust a customer care number from a search result or social media. Take it from the official app or website.</li>
+      <li>No police officer, CBI, ED, or customs official will arrest you, investigate you, or demand money over a call or video call. Hang up.</li>
+      <li>Treat any message that creates urgency, threats, or guaranteed profits as a red flag. Pressure is the tool.</li>
+      <li>Open links only from sources you can verify. When in doubt, type the official address yourself instead of tapping.</li>
+      <li>Install apps only from the official Play Store or App Store, and check the developer name and review history.</li>
+      <li>If money leaves your account in a fraud, call 1930 and your bank within the first few hours. Fast reporting improves the chance of freezing the money.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="wrap">
+    <h2>Can you spot the scam?</h2>
+    <p class="section-intro">Five short situations. Pick what you would do. Your answers stay in this browser and are not sent anywhere.</p>
+    <div class="quiz-box" id="quizBox">
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-options" id="quizOpts"></div>
+      <div class="quiz-why" id="quizWhy"></div>
+      <button class="btn btn-primary quiz-next" id="quizNext" type="button">Next question</button>
+      <div class="quiz-score" id="quizScore"></div>
+      <button class="btn btn-outline quiz-restart" id="quizRestart" type="button" style="color:var(--navy);border-color:var(--navy);">Restart quiz</button>
+    </div>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <h2>Where to report a fraud in India</h2>
+    <p class="section-intro">These are the official channels. Keep transaction IDs, the phone number or account that contacted you, screenshots, and call records ready.</p>
+    <div class="urgent">
+      If money has just left your account, act in the first few hours. Call your bank to freeze the transaction, then call 1930. Quick reporting gives the system the best chance of holding the money before it moves further.
+    </div>
+    <div class="report-grid">
+      <div class="report-card">
+        <h3>National cyber fraud helpline</h3>
+        <p class="big">1930</p>
+        <p>For frauds involving money: UPI, cards, net banking, wallets. Run by the Indian Cyber Crime Coordination Centre (I4C).</p>
+      </div>
+      <div class="report-card">
+        <h3>National Cyber Crime Reporting Portal</h3>
+        <p><a href="https://cybercrime.gov.in" rel="noopener">cybercrime.gov.in</a></p>
+        <p>File a written complaint online for any cyber crime, including frauds against women and children. You get a complaint number to track it.</p>
+      </div>
+      <div class="report-card">
+        <h3>Chakshu portal</h3>
+        <p><a href="https://sancharsaathi.gov.in/sfc/" rel="noopener">sancharsaathi.gov.in/sfc</a></p>
+        <p>Report suspected fraud calls, SMS, and WhatsApp messages, even before any money is lost. Part of the government's Sanchar Saathi initiative.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>&copy; 2026 CyberShield. Built for cyber safety education.</div>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms and Conditions</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var QUESTIONS = [
+    {
+      q: "You listed a chair for sale online. A buyer sends you a QR code and says: scan this and enter your UPI PIN to receive the payment. What do you do?",
+      opts: [
+        "Scan it, the buyer sounds genuine",
+        "Refuse. Receiving money never needs a scan or a PIN",
+        "Ask the buyer to call first, then scan"
+      ],
+      correct: 1,
+      why: "Scanning a QR code and entering your PIN authorises a payment from your account. No one receiving money ever needs to do this."
+    },
+    {
+      q: "A caller says he is from your bank and your KYC expires today. He asks you to read out the OTP just sent to your phone so he can update it. What do you do?",
+      opts: [
+        "Share the OTP, the bank already knows my number",
+        "Hang up and call the bank on the number printed on my card or in its official app",
+        "Share only the first four digits of the OTP"
+      ],
+      correct: 1,
+      why: "Banks never ask for an OTP. The only safe check is a number you took from the bank's own card, app, or website."
+    },
+    {
+      q: "You get a video call from someone in a police uniform. He says a parcel in your name contained drugs, you are under digital arrest, and you must not disconnect or tell anyone. What do you do?",
+      opts: [
+        "Stay on the call and cooperate, this sounds serious",
+        "Ask for his badge number and keep talking",
+        "Disconnect. No agency in India arrests or investigates anyone over a video call"
+      ],
+      correct: 2,
+      why: "Digital arrest is a scam pattern flagged by the government. Real law enforcement does not demand money or secrecy on calls. Hang up and report on 1930 or Chakshu."
+    },
+    {
+      q: "A WhatsApp message offers part-time work: like 20 videos a day and earn money. The first two tasks pay small amounts. Then you are asked to deposit a refundable fee to unlock higher tasks. What do you do?",
+      opts: [
+        "Pay the fee, I already earned from the first tasks",
+        "Stop and block. Real jobs do not ask you to pay to earn",
+        "Pay a smaller amount to test it"
+      ],
+      correct: 1,
+      why: "The early payouts exist to build trust. Any earning scheme that asks you to deposit money first is a fraud pattern."
+    },
+    {
+      q: "An SMS says your electricity will be disconnected tonight and gives a number to call. The person who answers asks you to install an app so he can help. What do you do?",
+      opts: [
+        "Install the app, the disconnection deadline is close",
+        "Hang up, delete the SMS, and check your bill only in the electricity provider's official app or website",
+        "Call back and argue until he proves he is genuine"
+      ],
+      correct: 1,
+      why: "The app is a screen-sharing tool that hands control of your phone to the fraudster. Verify any disconnection notice through the official app or website only."
+    }
+  ];
+
+  var idx = 0, score = 0;
+  var qEl = document.getElementById('quizQ');
+  var optsEl = document.getElementById('quizOpts');
+  var whyEl = document.getElementById('quizWhy');
+  var nextBtn = document.getElementById('quizNext');
+  var scoreEl = document.getElementById('quizScore');
+  var restartBtn = document.getElementById('quizRestart');
+
+  function render(){
+    var item = QUESTIONS[idx];
+    qEl.textContent = "Question " + (idx + 1) + " of " + QUESTIONS.length + ": " + item.q;
+    optsEl.innerHTML = "";
+    whyEl.style.display = "none";
+    whyEl.textContent = "";
+    nextBtn.style.display = "none";
+    item.opts.forEach(function(text, i){
+      var b = document.createElement('button');
+      b.type = "button";
+      b.className = "quiz-opt";
+      b.textContent = text;
+      b.addEventListener('click', function(){ answer(i, b); });
+      optsEl.appendChild(b);
+    });
+  }
+
+  function answer(choice, btn){
+    var item = QUESTIONS[idx];
+    var buttons = optsEl.querySelectorAll('.quiz-opt');
+    buttons.forEach(function(b, i){
+      b.disabled = true;
+      if(i === item.correct){ b.classList.add('correct'); }
+    });
+    if(choice === item.correct){
+      score++;
+    } else {
+      btn.classList.add('wrong');
+    }
+    whyEl.textContent = item.why;
+    whyEl.style.display = "block";
+    nextBtn.style.display = "inline-block";
+    nextBtn.textContent = (idx === QUESTIONS.length - 1) ? "See my score" : "Next question";
+  }
+
+  function finish(){
+    qEl.textContent = "Quiz complete";
+    optsEl.innerHTML = "";
+    whyEl.style.display = "none";
+    nextBtn.style.display = "none";
+    scoreEl.style.display = "block";
+    var msg = "You got " + score + " out of " + QUESTIONS.length + ".";
+    if(score === QUESTIONS.length){
+      msg += " Well done. Keep these habits, they hold up under pressure.";
+    } else if(score >= 3){
+      msg += " Good instincts. Re-read the safety rules above for the ones you missed.";
+    } else {
+      msg += " Read the fraud patterns and safety rules above, then try again.";
+    }
+    scoreEl.textContent = msg;
+    restartBtn.style.display = "inline-block";
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if(idx === QUESTIONS.length - 1){ finish(); return; }
+    idx++;
+    render();
+  });
+
+  restartBtn.addEventListener('click', function(){
+    idx = 0; score = 0;
+    scoreEl.style.display = "none";
+    restartBtn.style.display = "none";
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
